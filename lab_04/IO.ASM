@@ -8,6 +8,12 @@ SSEG ENDS
 DSEG SEGMENT PARA COMMON 'DATA'
 DSEG ENDS
 
+MSG SEGMENT PARA COMMON 'MSG'
+    mtr_inv db "Matrix input", 10, 13, '$'
+    size_inv db "Size input", 10, 13, '$'
+    mtr_new db "New matrix", 10, 13, '$'
+MSG ENDS
+
 CSEG SEGMENT PARA PUBLIC 'CODE'
     assume CS:CSEG, DS:DSEG
 ; Реализация выводов
@@ -20,7 +26,44 @@ newline proc near
     ret
 newline endp
 
+msg_choose proc near
+    cmp bx, 1h
+    je msize_inv
+    cmp bx, 2h
+    je mmtr_inv
+    cmp bx, 3h
+    je mmtr_new
+    ret
+
+msize_inv:
+    lea dx, size_inv
+    ret
+mmtr_inv:
+    lea dx, mtr_inv
+    ret
+mmtr_new:
+    lea dx, mtr_new
+    ret
+msg_choose endp
+
+
+msg_out proc near
+    push DS
+
+    mov ax, MSG
+    mov ds, ax
+
+    mov ah, 9h
+    call msg_choose
+
+    int 21h
+    pop DS
+    ret
+msg_out endp
+
 print_matrix proc near
+    mov bx, 3h
+    call msg_out
     mov ch, 0
     mov di, 0
     print_row:
@@ -68,6 +111,8 @@ input_num proc near
 input_num endp
 
 input_matrix proc near
+    mov bx, 1h
+    call msg_out
     call input_num
     mov ROWS, bl
 
@@ -78,6 +123,8 @@ input_matrix proc near
 
     call newline
 
+    mov bx, 2h
+    call msg_out
     mov ch, 0
     mov si, 0
     input_row:
