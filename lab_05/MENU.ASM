@@ -26,6 +26,7 @@ MENUS SEGMENT PARA PUBLIC USE16 'MENU'
     ext db "5: Exit", 10, 13, '$'
     inv_to_choose db 10, "Enter action: $"
 
+    rc word (0)
     funcs dw 1 dup(read_uint16_t)
           dw 1 dup(phex_uint16_t)
           dw 1 dup(pbin_int8_from_uint16)
@@ -56,10 +57,12 @@ proc_act proc near
     cmp bx, 1
 
     assume DS:MENUS
+    mov rc, dx
     sub bx, 1
     mov ax, bx
     mov bx, 2
     mul bx
+    mov dx, rc
 
     mov bx, ax
 
