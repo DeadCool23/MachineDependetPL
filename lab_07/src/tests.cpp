@@ -26,11 +26,11 @@ int asm_strlen_testing(void) {
         asm_strlen_test("TestLong");
 }
 
-static int asm_strncpy_test(const char *dst, const char *src, size_t len) {
+static int asm_memmove_test(const char *dst, const char *src, size_t len) {
     char rbuf[strlen(dst)];
     char asmbuf[strlen(dst)];
     strcpy(rbuf, dst); strcpy(asmbuf, dst);
-    strncpy(rbuf, src, len); _asm::strncpy(asmbuf, src, len);
+    memmove(rbuf, src, len); _asm::memmove(asmbuf, src, len);
     auto is_correct = !strcmp(rbuf, asmbuf);
     std::cout << "Test: {"  << std::endl;
     std::cout << "    Dst: " << dst << std::endl;
@@ -46,8 +46,8 @@ static int asm_strncpy_test(const char *dst, const char *src, size_t len) {
     return !is_correct;
 }
 
-int asm_strncpy_testing(void) {
+int asm_memmove_testing(void) {
     return
-        asm_strncpy_test("efghij", "abc", 1) +
-        asm_strncpy_test("efghij", "abc", 2);
+        asm_memmove_test("efghij", "abc", 1) +
+        asm_memmove_test("efghij", "abc", 2);
 }

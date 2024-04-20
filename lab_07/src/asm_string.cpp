@@ -20,12 +20,12 @@ size_t _asm::strlen(const char* _str) {
     return len;
 }
 
-extern "C" { void __asm_strncpy(char* dst, const char *src, size_t len); }
+extern "C" { void __asm_memmove(char* dst, const char *src, size_t len); }
 
 /**
  * @brief Функция обертка для __asm_strcpy
  */
-void _asm::strncpy(char* dst, const char *src, size_t len) {
+void _asm::memmove(char* dst, const char *src, size_t len) {
     __asm__ (
         "mov rdx, %0 \n\t "
         "mov rsi, %1 \n\t "
@@ -38,5 +38,5 @@ void _asm::strncpy(char* dst, const char *src, size_t len) {
         : "rsi", "rdi", "rdx"
     );
 
-    __asm_strncpy(dst, src, len);
+    __asm_memmove(dst, src, len);
 }

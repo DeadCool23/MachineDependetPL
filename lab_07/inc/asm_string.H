@@ -5,7 +5,7 @@
 
 namespace _asm {
     size_t strlen(const char* _str);
-    void strncpy(char* dst, const char *src, size_t len);
+    void memmove(char* dst, const char *src, size_t len);
 }
 
 #endif // __STRING_H__
