@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string.h>
 
-static int asm_strlen_test(const char *str) {
+static uint16_t asm_strlen_test(const char *str) {
     auto real_size = strlen(str);
     auto asm_size = _asm::strlen(str);
     auto is_correct = (real_size == asm_size);
@@ -18,7 +18,7 @@ static int asm_strlen_test(const char *str) {
     return !is_correct;
 }
 
-int asm_strlen_testing(void) {
+uint16_t asm_strlen_testing(void) {
     return 
         asm_strlen_test("") +
         asm_strlen_test("T") +
@@ -26,7 +26,7 @@ int asm_strlen_testing(void) {
         asm_strlen_test("TestLong");
 }
 
-static int asm_memmove_test(const char *dst, const char *src, size_t len) {
+static uint16_t asm_memmove_test(const char *dst, const char *src, size_t len) {
     char rbuf[strlen(dst)];
     char asmbuf[strlen(dst)];
     strcpy(rbuf, dst); strcpy(asmbuf, dst);
@@ -46,7 +46,7 @@ static int asm_memmove_test(const char *dst, const char *src, size_t len) {
     return !is_correct;
 }
 
-int asm_memmove_testing(void) {
+uint16_t asm_memmove_testing(void) {
     return
         asm_memmove_test("efghij", "abc", 1) +
         asm_memmove_test("efghij", "abc", 2);
