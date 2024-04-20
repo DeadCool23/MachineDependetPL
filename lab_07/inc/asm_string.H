@@ -3,8 +3,9 @@
 
 #include <stdlib.h>
 
-size_t asm_strlen(const char* _str);
-void asm_strncpy(char* dst, const char *src, size_t len);
-// extern "C" { void asm_strncpy(char* dst, const char *src, size_t len); }
+namespace _asm {
+    size_t strlen(const char* _str);
+    void strncpy(char* dst, const char *src, size_t len);
+}
 
 #endif // __STRING_H__
