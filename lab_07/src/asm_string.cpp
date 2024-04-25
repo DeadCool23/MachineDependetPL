@@ -39,4 +39,13 @@ void _asm::memmove(char* dst, const char *src, size_t len) {
     );
 
     __asm_memmove(dst, src, len);
+
+    __asm__ (
+        "pop rdx \n\t "
+        "pop rsi \n\t "
+        "pop rdi \n\t "
+        :
+        :
+        : "rsi", "rdi", "rdx"
+    );
 }

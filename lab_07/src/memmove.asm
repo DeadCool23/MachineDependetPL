@@ -2,13 +2,10 @@ global __asm_memmove
 
 section .text
 __asm_memmove:
-   pop     rax  ; Сохраняю адрес возврата
-
-   pop     rdi
-   pop     rsi
-   pop     rdx
-
-   push    rax ; Возращаю адрес возврата в стек
+   ; Загружаем переданные параметры
+   mov     rdi, [rsp + 8]  ; Загружаем параметр dst
+   mov     rsi, [rsp + 16] ; Загружаем параметр src
+   mov     rdx, [rsp + 24] ; Загружаем параметр len
 
    ; Реализация
    mov     rcx, rdx
@@ -30,11 +27,11 @@ __asm_memmove:
       add   rsi, rcx
       dec   rsi
 
-      std
+      std ; устанавливаем DF = чтение в обратную сторону
 
    std_copy:
       rep movsb
-      cld
+      cld ; сбрасываем DF
 
    exit:
    ret
