@@ -79,18 +79,21 @@ void measure_64_bit(void) {
 #define Big_PI 3.141596
 #define ASM_PI _asm::Pi()
 
+#define FORMAT std::setprecision(20)
+#define CLEAR std::setprecision(10)
+
 static void clang_mes_sin(void) {
     std::cout << "Sin by Clang {" << std::endl;
 
-    std::cout << "\tSin(" << Small_PI << ") = " << _clang::sin(Small_PI) << std::endl;
-    std::cout << "\tSin(" << Big_PI << ") = " << _clang::sin(Big_PI) << std::endl;
-    std::cout << "\tSin(" << ASM_PI << ") = " << _clang::sin(ASM_PI) << std::endl;
+    std::cout << "\tSin(" << Small_PI << ") = " << FORMAT << _clang::sin(Small_PI) << std::endl << CLEAR;
+    std::cout << "\tSin(" << Big_PI << ") = "  << FORMAT << _clang::sin(Big_PI) << std::endl << CLEAR;
+    std::cout << "\tSin(" << ASM_PI << ") = " << FORMAT << _clang::sin(ASM_PI) << std::endl << CLEAR;
 
     std::cout << std::endl;
 
-    std::cout << "\tSin(" << Small_PI << " / 2)  = " << _clang::sin(Small_PI / 2) << std::endl;
-    std::cout << "\tSin(" << Big_PI << " / 2) = " << _clang::sin(Big_PI / 2) << std::endl;
-    std::cout << "\tSin(" << ASM_PI << " / 2) = " << _clang::sin(ASM_PI / 2) << std::endl;
+    std::cout << "\tSin(" << Small_PI << " / 2)  = " << FORMAT << _clang::sin(Small_PI / 2) << std::endl << CLEAR;
+    std::cout << "\tSin(" << Big_PI << " / 2) = " << FORMAT << _clang::sin(Big_PI / 2) << std::endl << CLEAR;
+    std::cout << "\tSin(" << ASM_PI << " / 2) = " << FORMAT << _clang::sin(ASM_PI / 2) << std::endl << CLEAR;
 
     std::cout << "}" << std::endl;
 }
@@ -98,18 +101,20 @@ static void clang_mes_sin(void) {
 static void asm_mes_sin(void) {
     std::cout << "Sin by ASM {" << std::endl;
 
-    std::cout << "\tSin(" << Small_PI << ") = " << _asm::sin(Small_PI) << std::endl;
-    std::cout << "\tSin(" << Big_PI << ") = " << _asm::sin(Big_PI) << std::endl;
-    std::cout << "\tSin(" << ASM_PI << ") = " << _asm::sin(ASM_PI) << std::endl;
+    std::cout << "\tSin(" << Small_PI << ") = " << FORMAT << _asm::sin(Small_PI) << std::endl << CLEAR;
+    std::cout << "\tSin(" << Big_PI << ") = " << FORMAT << _asm::sin(Big_PI) << std::endl << CLEAR;
+    std::cout << "\tSin(" << ASM_PI << ") = " << FORMAT << _asm::sin(ASM_PI) << std::endl << CLEAR;
 
     std::cout << std::endl;
 
-    std::cout << "\tSin(" << Small_PI << " / 2)  = " << _asm::sin(Small_PI / 2) << std::endl;
-    std::cout << "\tSin(" << Big_PI << " / 2) = " << _asm::sin(Big_PI / 2) << std::endl;
-    std::cout << "\tSin(" << ASM_PI << " / 2) = " << _asm::sin(ASM_PI / 2) << std::endl;
+    std::cout << "\tSin(" << Small_PI << " / 2)  = " << FORMAT << _asm::sin(Small_PI / 2) << std::endl << CLEAR;
+    std::cout << "\tSin(" << Big_PI << " / 2) = " << FORMAT << _asm::sin(Big_PI / 2) << std::endl << CLEAR;
+    std::cout << "\tSin(" << ASM_PI << " / 2) = " << FORMAT << _asm::sin(ASM_PI / 2) << std::endl << CLEAR;
 
     std::cout << "}" << std::endl;
 }
+
+#undef FORMAT
 
 void measure_sin(void) {
     std::cout << "---Sinus measure start---" << std::endl;
@@ -127,6 +132,11 @@ void measure_sin(void) {
     std::cout << "---Sinus measure end---" << std::endl;
 }
 
+#undef BigPI
+#undef ASM_PI
+#undef SmallPI
+
+
 #define BEG 0.2
 #define END 0.8
 
@@ -134,18 +144,20 @@ void measure_sin(void) {
 
 #include "find_root.hpp"
 
+#define FORMAT std::setprecision(20)
+
 void find_root_mes(void) {
     std::cout << "Find root of sin(x^2 + 5x) on [" << BEG << ", " << END << "] {" << std::endl;
-    std::cout << "\tCpp root: " << clang_find_root_of_sin(BEG, END, CNT) << std::endl;
-    std::cout << "\tASM root: " << asm_find_root_of_sin(BEG, END, CNT) << std::endl;
+    std::cout << FORMAT;
+    std::cout << "\tCpp root: " << FORMAT << clang_find_root_of_sin(BEG, END, CNT) << std::endl << CLEAR;
+    std::cout << "\tASM root: " << FORMAT << asm_find_root_of_sin(BEG, END, CNT) << std::endl << CLEAR;
     std::cout << "}" << std::endl;
 }
+
+#undef FORMAT
+#undef CLEAR
 
 #undef CNT
 
 #undef END
 #undef BEG
-
-#undef BigPI
-#undef ASM_PI
-#undef SmallPI
