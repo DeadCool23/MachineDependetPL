@@ -126,6 +126,25 @@ void measure_sin(void) {
     std::cout << "---Sinus measure end---" << std::endl;
 }
 
+#define BEG -0.5
+#define END 0.5
+
+#define CNT 10
+
+#include "find_root.hpp"
+
+void find_root_mes(void) {
+    std::cout << "Find root of sin(x^2 + 5x) on [" << BEG << ", " << END << "] {" << std::endl;
+    std::cout << "\tCpp root: " << clang_find_root_of_sin(BEG, END, CNT) << std::endl;
+    std::cout << "\tASM root: " << asm_find_root_of_sin(BEG, END, CNT) << std::endl;
+    std::cout << "}" << std::endl;
+}
+
+#undef CNT
+
+#undef END
+#undef BEG
+
 #undef BigPI
 #undef ASM_PI
 #undef SmallPI
