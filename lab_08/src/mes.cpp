@@ -1,6 +1,7 @@
 #include "mes.hpp"
 
 #include <chrono>
+#include <iomanip>
 #include <iostream>
 #include <functional>
 
@@ -16,8 +17,8 @@ static std::size_t fmes_32(const std::function<float(float, float)> &f, std::siz
         (void)f(fst, scd);
 
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    return duration.count();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+    return duration.count() / count;
 }
 
 void measure_32_bit(void) {
@@ -26,15 +27,15 @@ void measure_32_bit(void) {
     std::cout << std::endl << "All funcs reply 1000 times" << std::endl;
 
     std::cout << std::endl << "Sum measures {" << std::endl;
-    std::cout << "\tSum by C: " << fmes_32(_clang::sum_32, COUNT) << "ms" << std::endl;
-    std::cout << "\tSum by ASM: " << fmes_32(_asm::sum_32, COUNT) << "ms" << std::endl;
+    std::cout << "\tSum by C: " << fmes_32(_clang::sum_32, COUNT) << "ns" << std::endl;
+    std::cout << "\tSum by ASM: " << fmes_32(_asm::sum_32, COUNT) << "ns" << std::endl;
     std::cout << "}" << std::endl;
 
     std::cout << std::endl;
 
     std::cout << std::endl << "Mul measures {" << std::endl;
-    std::cout << "\tMul by C: " << fmes_32(_clang::mul_32, COUNT) << "ms" << std::endl;
-    std::cout << "\tMul by ASM: " << fmes_32(_asm::mul_32, COUNT) << "ms" << std::endl;
+    std::cout << "\tMul by C: " << fmes_32(_clang::mul_32, COUNT) << "ns" << std::endl;
+    std::cout << "\tMul by ASM: " << fmes_32(_asm::mul_32, COUNT) << "ns" << std::endl;
     std::cout << "}" << std::endl;
 
     std::cout << std::endl;
@@ -49,8 +50,8 @@ static std::size_t fmes_64(const std::function<double(double, double)> &f, std::
         (void)f(fst, scd);
 
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    return duration.count();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+    return duration.count() / count;
 }
 
 void measure_64_bit(void) {
@@ -59,15 +60,15 @@ void measure_64_bit(void) {
     std::cout << std::endl << "All funcs reply 1000 times" << std::endl;
     
     std::cout << std::endl << "Sum measures {" << std::endl;
-    std::cout << "\tSum by C: " << fmes_32(_clang::sum_64, COUNT) << "ms" << std::endl;
-    std::cout << "\tSum by ASM: " << fmes_32(_asm::sum_64, COUNT) << "ms" << std::endl;
+    std::cout << "\tSum by C: " << fmes_32(_clang::sum_64, COUNT) << "ns" << std::endl;
+    std::cout << "\tSum by ASM: " << fmes_32(_asm::sum_64, COUNT) << "ns" << std::endl;
     std::cout << "}" << std::endl;
 
     std::cout << std::endl;
 
     std::cout << std::endl << "Mul measures {" << std::endl;
-    std::cout << "\tMul by C: " << fmes_32(_clang::mul_64, COUNT) << "ms" << std::endl;
-    std::cout << "\tMul by ASM: " << fmes_32(_asm::mul_64, COUNT) << "ms" << std::endl;
+    std::cout << "\tMul by C: " << fmes_32(_clang::mul_64, COUNT) << "ns" << std::endl;
+    std::cout << "\tMul by ASM: " << fmes_32(_asm::mul_64, COUNT) << "ns" << std::endl;
     std::cout << "}" << std::endl;
 
     std::cout << std::endl;
@@ -126,10 +127,10 @@ void measure_sin(void) {
     std::cout << "---Sinus measure end---" << std::endl;
 }
 
-#define BEG -0.5
-#define END 0.5
+#define BEG 0.2
+#define END 0.8
 
-#define CNT 10
+#define CNT 100
 
 #include "find_root.hpp"
 

@@ -3,6 +3,8 @@
 #include <math.h>
 #include <limits>
 
+#include <iostream>
+
 double asm_find_root_of_sin(double beg, double end, std::size_t cnt /* double eps */) {
     double ans;
 
@@ -10,15 +12,10 @@ double asm_find_root_of_sin(double beg, double end, std::size_t cnt /* double ep
 
     double tmp_buf;
     __asm__ (
-        "fldl    %[beg]        \n"
-        "fldl    %[end]        \n"
-        "fmulp                 \n"
-        "fstpl   %[tmp_buf]    \n"
-
-        "continue:             \n"
         "push    %[beg]        \n"
         "call __sin_func       \n"
         "pop     %[beg]        \n"
+
         "fstpl   %[beg_val]    \n"
 
         "push    %[end]        \n"
@@ -28,7 +25,7 @@ double asm_find_root_of_sin(double beg, double end, std::size_t cnt /* double ep
         
         //  Количество итераций
         "movq    %[cnt], %%rcx \n"
-        
+
         "finder:               \n"
 
         //  (end_val - beg_val)
@@ -49,7 +46,7 @@ double asm_find_root_of_sin(double beg, double end, std::size_t cnt /* double ep
         "   fdivp               \n"
 
         //  func = beg - beg_val * (end - beg) / (end_val - beg_val);
-        "   fldl    %[end]  \n"
+        "   fldl    %[beg]  \n"
         "   fsubp           \n"
         
         "   fstpl   %[ans]       \n"  // ans = func
@@ -78,14 +75,15 @@ double asm_find_root_of_sin(double beg, double end, std::size_t cnt /* double ep
         "__sin_func: \n"
         "   push     %%rbp         \n"
         "   mov      %%rsp, %%rbp  \n"
-        "   fldl     8(%%rbp)      \n"
-        "   fldl     8(%%rbp)      \n"
+        "   fldl     16(%%rbp)      \n"
+
+        "   fldl     16(%%rbp)      \n"
         "   fmulp                  \n"
         
         "   mov     $5, %%rax         \n"
         "   mov     %%rax, %[tmp_buf] \n"
         "   fildl   %4                \n"
-        "   fldl    8(%%rbp)          \n"
+        "   fldl    16(%%rbp)          \n"
         "   fmulp                     \n"
 
         "   faddp                     \n"
@@ -95,12 +93,10 @@ double asm_find_root_of_sin(double beg, double end, std::size_t cnt /* double ep
         "   pop     %%rbp  \n"
         "   ret            \n"
 
-        "__end:                    \n"
-        "   fldl    %[step_val]    \n"
-        "   fstpl   %[ans]         \n"
-        : [ans]"=m"(ans)
-        : [beg]"m"(beg), [end]"m"(end), [cnt]"m"(cnt), [tmp_buf]"m"(tmp_buf), [beg_val]"m"(beg_val), [end_val]"m"(end_val), [step_val]"m"(step_val)
-        : "%rax"
+        "__end:            \n"
+        : [ans]"=m"(ans), [beg]"+m"(beg), [end]"+m"(end), [cnt]"+m"(cnt), [tmp_buf]"+m"(tmp_buf), [beg_val]"+m"(beg_val), [end_val]"+m"(end_val), [step_val]"+m"(step_val)
+        :
+        : "%rax", "%rcx"
     );
 
 
@@ -108,11 +104,11 @@ double asm_find_root_of_sin(double beg, double end, std::size_t cnt /* double ep
 }
 
 double clang_find_root_of_sin(double beg, double end, std::size_t cnt /* double eps */) {
-    auto __sin_func = [](double x) { return x * x + 5 * x; };
+    auto __sin_func = [](double x) { return sin(x * x + 5 * x); };
 
 
-    auto beg_val = __sin_func(beg);
-    auto end_val = __sin_func(end);
+    double beg_val = __sin_func(beg);
+    double end_val = __sin_func(end);
 
     double step;
     for (std::size_t i = 0; i < cnt; ++i) {
