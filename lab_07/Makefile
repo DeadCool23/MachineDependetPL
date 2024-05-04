@@ -35,7 +35,7 @@ clean:
 	rm -f $(TARGET) -r $(OBJ_DIR)
 
 $(TARGET): $(OBJ_DIR) $(CPP_OBJ) $(NASM_OBJ)
-	$(CC) $(CPP_OBJ) $(NASM_OBJ) -no-pie -o $@
+	$(CC) $(CPPFLAGS) $(CPP_OBJ) $(NASM_OBJ) $(INC) -no-pie -o $@
 
 $(OBJ_DIR):
 	mkdir -p $@

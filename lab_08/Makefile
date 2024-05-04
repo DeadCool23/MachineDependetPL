@@ -53,15 +53,15 @@ clean:
 	rm -f $(TARGET) $(M_TARGET) $(MNO_TARGET) -r $(OBJ_DIR) $(DASM_DIR)
 
 $(TARGET): $(OBJ_DIR) $(CPP_OBJ) $(NASM_OBJ)
-	$(CC) $(CPP_OBJ) $(NASM_OBJ) -no-pie -o $@
+	$(CC) $(CPPFLAGS) $(CPP_OBJ) $(NASM_OBJ) $(INC) -no-pie -o $@
 
 $(M_TARGET): CPPFLAGS += -m80387
 $(M_TARGET): $(OBJ_DIR) $(CPP_OBJ) $(NASM_OBJ)
-	$(CC) $(CPP_OBJ) $(NASM_OBJ) -no-pie -o $@
+	$(CC) $(CPPFLAGS) $(CPP_OBJ) $(NASM_OBJ) $(INC) -no-pie -o $@
 
 $(MNO_TARGET): CPPFLAGS += -mno-80387
 $(MNO_TARGET): $(OBJ_DIR) $(CPP_OBJ) $(NASM_OBJ)
-	$(CC) $(CPP_OBJ) $(NASM_OBJ) -no-pie -o $@
+	$(CC) $(CPPFLAGS) $(CPP_OBJ) $(NASM_OBJ) $(INC) -no-pie -o $@
 
 $(OBJ_DIR):
 	mkdir -p $@
