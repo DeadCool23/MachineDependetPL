@@ -1,7 +1,7 @@
 # Программирование на ASM
 
+[__CONFIG__](https://github.com/DeadCool23/MachineDependetPL/tree/main/config) - Конфигурация моего ___DosBox___ <br>
 [__COMPILER__](https://github.com/DeadCool23/MachineDependetPL/tree/main/compile) - Компилятор __MASM__ для ___DosBox___
-[__CONFIG__](https://github.com/DeadCool23/MachineDependetPL/tree/main/config) - Конфигурация моего __DosBox__
 
 ## Лабораторные работы:
 
