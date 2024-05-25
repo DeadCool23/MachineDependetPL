@@ -67,9 +67,6 @@ get_root:
     movsd [tmp_x_start], x_start
     movsd [tmp_x_end], x_end
 
-    ; movsd xmm0, qword [eps]
-    ; call print_double
-
     get_root_loop:
 
     ; while (fabs(b - a) > eps)
