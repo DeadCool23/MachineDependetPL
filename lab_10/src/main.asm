@@ -54,14 +54,11 @@ extern gtk_window_set_default_size
 
 section .data
     solve_button_title          db "Calculate", 0
-    ; solve_button_title          db "לחשב", 0
     title                       db "Root Finder", 0
     res_text                    db ENTRY_SIZE dup (0)
 
     start_x_placeholder_text    db "X begin", 0 
-    ; start_x_placeholder_text    db "X התחל", 0 
     end_x_placeholder_text      db "X end", 0
-    ; end_x_placeholder_text      db "X סוֹף", 0
     iters_num_placeholder_text  db "Iteration count", 0
     result_placeholder_text     db "Result", 0
 
