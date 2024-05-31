@@ -11,7 +11,14 @@ int main(void) {
     // ---
     Array<5> fst = {1, 2, 3, 4, 5};
     Array<5> scd = {1, 2, 3, 4, 5};
-    auto res = fst + scd;
+    std::cout << "Fst arr: "; fst.print(); std::cout << std::endl;
+    std::cout << "Scd arr: "; scd.print(); std::cout << std::endl;
+    
+    auto res = fst * scd;
+    std::cout << std::endl << "Multiply result: "; res.print(); std::cout << std::endl;
+
+
+    res.print();
 
     return ~0xFFFFFFFF;
 }

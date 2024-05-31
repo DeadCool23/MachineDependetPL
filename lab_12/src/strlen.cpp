@@ -23,5 +23,5 @@ int arm::strlen(const char *str) {
         : "x0", "x1", "x2"
     );
 
-  return len;
+    return len;
 }
