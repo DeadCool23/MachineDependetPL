@@ -23,7 +23,7 @@ class Array {
 };
 
 template <uint16_t N>
-Array<N>::Array(std::initializer_list<int> lst) : size(N) {
+Array<N>::Array(std::initializer_list<int> lst) : _size(N) {
     uint16_t i = 0;
     for (const auto &el : lst) {
         arr[i++] = el;
@@ -33,6 +33,7 @@ Array<N>::Array(std::initializer_list<int> lst) : size(N) {
 template <uint16_t N>
 Array<N> Array<N>::operator*(const Array<N> &other) const {
     Array<N> result;
+
     for (uint16_t i = 0; i < N; i += 4) {
         if (N - i > 4) {
             __asm__ volatile (
