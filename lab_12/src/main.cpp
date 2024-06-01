@@ -17,8 +17,5 @@ int main(void) {
     auto res = fst * scd;
     std::cout << std::endl << "Multiply result: "; res.print(); std::cout << std::endl;
 
-
-    res.print();
-
     return ~0xFFFFFFFF;
 }
