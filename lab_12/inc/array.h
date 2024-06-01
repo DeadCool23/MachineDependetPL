@@ -7,19 +7,23 @@
 
 template <uint16_t N>
 class Array {
+    private:
+        using value_type = int;
     public:
         Array() = default;
-        Array(std::initializer_list<int> lst);
+        Array(std::initializer_list<value_type> lst);
 
         void print(void) const;
         int size(void) const { return _size; }
+        
         Array<N> operator*(const Array<N> &other) const;
+        value_type &operator[](uint16_t i) { return arr[i]; };
 
         ~Array() = default;
 
     protected:
         uint16_t _size;
-        int arr[N];
+        value_type arr[N];
 };
 
 template <uint16_t N>
@@ -27,6 +31,8 @@ Array<N>::Array(std::initializer_list<int> lst) : _size(N) {
     uint16_t i = 0;
     for (const auto &el : lst) {
         arr[i++] = el;
+        if (i == N)
+            return;
     }
 }
 
